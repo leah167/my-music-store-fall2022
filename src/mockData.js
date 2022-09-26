@@ -16,7 +16,7 @@ export const productList = [
     image: 'https://m.media-amazon.com/images/I/61YlBr7OQfS._AC_SL1500_.jpg',
   },
 ];
-const sampleUserData = {
+export const sampleUserData = {
   id: '007',
   firstName: 'John',
   lastName: 'Doe',

@@ -1,19 +1,26 @@
-import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Layout from './components/layout/Layout';
+import './resetStyles.css';
+import { useState } from 'react';
 import HomePage from './components/pages/HomePage';
+import SignInPage from './components/pages/SignInPage';
 import CustomThemeProvider from './CustomThemeProvider';
 
 function App() {
-  const [user, setUser] = useState();
-  const [shoppingCart, setShoppingCart] = useState();
+  const userInitialState = undefined;
+
+  const [user, setUser] = useState(userInitialState);
+
+  const signIn = (userData) => setUser(userData);
+
+  const signOut = () => setUser(userInitialState);
 
   return (
     <CustomThemeProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage user={user} />} />
+          <Route path="/user" element={<SignInPage user={user} signIn={signIn} signOut={signOut} />} />
         </Routes>
       </BrowserRouter>
     </CustomThemeProvider>

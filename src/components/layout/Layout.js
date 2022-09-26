@@ -1,16 +1,16 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Footer from './Footer';
 import Header from './Header';
 
 function Layout(props) {
-  const { children } = props;
+  const { children, user } = props;
 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Box>
-        <Header />
+        <Header user={user} />
       </Box>
-      <Box flexGrow={1} py={6}>
+      <Box flexGrow={1} py={6} px={4}>
         {children}
       </Box>
       <Box>
