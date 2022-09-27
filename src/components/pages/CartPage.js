@@ -1,9 +1,13 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
+import CartItem from '../CartItem';
 import Layout from '../layout/Layout';
 
 function CartPage(props) {
   const {
-    shoppingCart, addToCart, removeFromCart, emptyCart,
+    shoppingCart, removeFromCart, emptyCart,
   } = props;
 
   return (
@@ -13,15 +17,39 @@ function CartPage(props) {
         display="flex"
         flexDirection="column"
         alignItems="center"
+        mb={6}
       />
       {shoppingCart.map((cartItem) => (
-        <Box>
-          <div>{cartItem.title}</div>
-          <div>{cartItem.description}</div>
-          <div>{cartItem.price}</div>
-          <div>{cartItem.quantity}</div>
+        <Box mb={3}>
+          <CartItem cartItem={cartItem} removeFromCart={removeFromCart} />
         </Box>
       ))}
+      <Box mt={5}>
+        <Box mb={3}>
+          <Button fullWidth variant="contained">Checkout</Button>
+        </Box>
+        <Box mb={3}>
+          <Button
+            fullWidth
+            variant="contained"
+            startIcon={<DeleteIcon />}
+            onClick={emptyCart}
+          >
+            Empty Cart
+          </Button>
+        </Box>
+        <Box mb={3}>
+          <Link to="/">
+            <Button
+              fullWidth
+              variant="contained"
+              startIcon={<HomeIcon />}
+            >
+              Home
+            </Button>
+          </Link>
+        </Box>
+      </Box>
     </Layout>
   );
 }
