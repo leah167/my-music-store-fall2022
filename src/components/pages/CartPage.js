@@ -1,14 +1,15 @@
-import { Box, Button } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HomeIcon from '@mui/icons-material/Home';
+import { Box, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useShoppingCart } from '../../context/shoppingCartContext';
 import CartItem from '../CartItem';
 import Layout from '../layout/Layout';
 
-function CartPage(props) {
+function CartPage() {
   const {
     shoppingCart, removeFromCart, emptyCart,
-  } = props;
+  } = useShoppingCart();
 
   return (
     <Layout>
@@ -20,7 +21,7 @@ function CartPage(props) {
         mb={6}
       />
       {shoppingCart.map((cartItem) => (
-        <Box mb={3}>
+        <Box mb={3} key={cartItem.id}>
           <CartItem cartItem={cartItem} removeFromCart={removeFromCart} />
         </Box>
       ))}

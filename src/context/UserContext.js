@@ -1,19 +1,16 @@
-import React, {
-  createContext, useContext, useState,
-} from 'react';
+import { createContext, useState } from 'react';
 
 export const userContext = createContext();
 
-export const useUser = () => useContext(userContext);
-
-function UserProvider(props) {
+function UserContextProvider(props) {
   const { children } = props;
+  const userInitialState = undefined;
 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(userInitialState);
 
   const signIn = (userData) => setUser(userData);
 
-  const signOut = () => setUser(undefined);
+  const signOut = () => setUser(userInitialState);
 
   return (
     <userContext.Provider value={{ user, signIn, signOut }}>
@@ -22,4 +19,4 @@ function UserProvider(props) {
   );
 }
 
-export default UserProvider;
+export default UserContextProvider;

@@ -8,9 +8,11 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import { useShoppingCart } from '../context/shoppingCartContext';
 
 function ProductDisplay(props) {
-  const { productData, addToCart } = props;
+  const { addToCart } = useShoppingCart();
+  const { productData } = props;
 
   const onAddToCart = () => {
     addToCart(productData);
