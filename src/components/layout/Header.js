@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 
 export default function Header(props) {
   const { user } = props;
-  console.log('user prop in the header: ', user);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -55,15 +54,17 @@ export default function Header(props) {
                   )
               }
             </Link>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <ShoppingCartIcon />
-            </IconButton>
+            <Link to="/cart">
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <ShoppingCartIcon />
+              </IconButton>
+            </Link>
           </Box>
         </Toolbar>
       </AppBar>
