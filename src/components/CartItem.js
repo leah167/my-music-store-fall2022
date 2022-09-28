@@ -1,7 +1,5 @@
-import {
-  Card, CardMedia, Box, Typography, IconButton,
-} from '@mui/material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Card, CardMedia, Box, Typography, IconButton } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 function CartItem(props) {
   const { cartItem, removeFromCart } = props;
@@ -16,27 +14,35 @@ function CartItem(props) {
             image={cartItem.image}
           />
         </Box>
-        <Box px={2} display="flex" flexDirection="column" flexGrow={1} justifyContent="center">
+        <Box
+          px={2}
+          display="flex"
+          flexDirection="column"
+          flexGrow={1}
+          justifyContent="center"
+        >
           <Box>
-            <Typography fontWeight="bold">
-              {cartItem.title}
-            </Typography>
+            <Typography fontWeight="bold">{cartItem.title}</Typography>
           </Box>
           <Box>
-            <Typography fontWeight="bold">
-
-              $
-              {cartItem.price / 100}
-            </Typography>
+            <Typography fontWeight="bold">${cartItem.price / 100}</Typography>
           </Box>
         </Box>
-        <Box px={2} display="flex" flexDirection="column" justifyContent="center">
-          <Typography fontWeight="bold">
-            x
-            {cartItem.quantity}
-          </Typography>
+        <Box
+          px={2}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+        >
+          <Typography fontWeight="bold">x{cartItem.quantity}</Typography>
         </Box>
-        <Box px={2} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+        <Box
+          px={2}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
           <IconButton onClick={() => removeFromCart(cartItem.id)}>
             <DeleteForeverIcon />
           </IconButton>

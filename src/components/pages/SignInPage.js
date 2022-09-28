@@ -1,17 +1,15 @@
-import {
-  Box, Button, TextField, Typography,
-} from '@mui/material';
-import { useContext, useState } from 'react';
-import { userContext } from '../../context/userContext';
-import { sampleUserData } from '../../mockData';
-import Layout from '../layout/Layout';
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { useContext, useState } from "react";
+import { userContext } from "../../context/UserContext";
+import { sampleUserData } from "../../mockData";
+import Layout from "../layout/Layout";
 
 function SignInPage() {
   const { user, signIn, signOut } = useContext(userContext);
 
   const [signInForm, setSignInForm] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const onSubmit = () => {
@@ -21,17 +19,14 @@ function SignInPage() {
 
   if (user) {
     return (
-      <Layout>
+      <Layout user={user}>
         <Box mb={4}>
-          <Typography>
-            Hi
-            {' '}
-            {user.firstName}
-            !
-          </Typography>
+          <Typography>Hi {user.firstName}!</Typography>
         </Box>
         <Box>
-          <Button variant="contained" onClick={signOut}>Sign out</Button>
+          <Button variant="contained" onClick={signOut}>
+            Sign out
+          </Button>
         </Box>
       </Layout>
     );
@@ -46,8 +41,13 @@ function SignInPage() {
         <TextField
           id="email"
           label="Email"
-          value={console.log('signInForm.email: ', signInForm.email) || signInForm.email}
-          onChange={(event) => setSignInForm({ ...signInForm, email: event.target.value })}
+          value={
+            console.log("signInForm.email: ", signInForm.email) ||
+            signInForm.email
+          }
+          onChange={(event) =>
+            setSignInForm({ ...signInForm, email: event.target.value })
+          }
         />
       </Box>
       <Box mb={4}>
@@ -56,11 +56,15 @@ function SignInPage() {
           label="Password"
           type="password"
           value={signInForm.password}
-          onChange={(event) => setSignInForm({ ...signInForm, password: event.target.value })}
+          onChange={(event) =>
+            setSignInForm({ ...signInForm, password: event.target.value })
+          }
         />
       </Box>
       <Box>
-        <Button variant="contained" onClick={onSubmit}>Sign In</Button>
+        <Button variant="contained" onClick={onSubmit}>
+          Sign In
+        </Button>
       </Box>
     </Layout>
   );
