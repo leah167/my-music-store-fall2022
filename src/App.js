@@ -1,3 +1,4 @@
+import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./resetStyles.css";
@@ -5,13 +6,13 @@ import HomePage from "./components/pages/HomePage";
 import SignInPage from "./components/pages/SignInPage";
 import CustomThemeProvider from "./CustomThemeProvider";
 import CartPage from "./components/pages/CartPage";
-import UserContextProvider from "./context/UserContext";
 import ShoppingCartContextProvider from "./context/shoppingCartContext";
+import store from "./redux-state/store";
 
 function App() {
   return (
-    <CustomThemeProvider>
-      <UserContextProvider>
+    <Provider store={store}>
+      <CustomThemeProvider>
         <ShoppingCartContextProvider>
           <BrowserRouter>
             <Routes>
@@ -21,8 +22,8 @@ function App() {
             </Routes>
           </BrowserRouter>
         </ShoppingCartContextProvider>
-      </UserContextProvider>
-    </CustomThemeProvider>
+      </CustomThemeProvider>
+    </Provider>
   );
 }
 

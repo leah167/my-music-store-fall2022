@@ -1,63 +1,101 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useReducer } from "react";
 
 export const shoppingCartContext = createContext();
 
 export const useShoppingCart = () => useContext(shoppingCartContext);
 
-function ShoppingCartContextProvider(props) {
-  const { children } = props;
+const ADD_TO_CART = "add-to-cart";
+const REMOVE_FROM_CART = "remove-from-cart";
+const EMPTY_CART = "empty-cart";
 
-  // Shopping cart
-  const shoppingCartInitialState = [];
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case ADD_TO_CART: {
+      // Check if the product already exist in the shopping cart
+      const productFound = state.find(
+        (cartItem) => cartItem.id === action.payload.id
+      );
 
-  const [shoppingCart, setShoppingCart] = useState(shoppingCartInitialState);
+      if (productFound) {
+        // we want to return the exact same shopping cart.
+        // Except that we want to update the quantity and total.
+        const newShoppingCart = state.map((cartItem) => {
+          if (cartItem.id === productFound.id) {
+            const newItemQuantity = cartItem.quantity + 1;
+            return {
+              ...cartItem,
+              quantity: newItemQuantity,
+              total: newItemQuantity * cartItem.price,
+            };
+          }
 
-  console.log('shopping cart state: ', shoppingCart);
+          return cartItem;
+        });
 
-  const addToCart = (productData) => {
-    // Check if the product already exist in the shopping cart
-    const productFound = shoppingCart.find((cartItem) => cartItem.id === productData.id);
+        return newShoppingCart;
+      } else {
+        // if we don't find the product, we want to add it to the shopping cart for the first time.
+        const newCartItem = {
+          ...action.payload,
+          quantity: 1,
+          total: action.payload.price,
+        };
+        return [...state, newCartItem];
+      }
+    }
 
-    if (productFound) {
-      // we want to return the exact same shopping cart.
-      // Except that we want to update the quantity and total.
-      const newShoppingCart = shoppingCart.map((cartItem) => {
-        if (cartItem.id === productFound.id) {
-          const newItemQuantity = cartItem.quantity + 1;
+    case REMOVE_FROM_CART: {
+      // remove item from cart that match the product id.
+      const newCart = state.map((item) => {
+        if (item.id === action.payload.id) {
           return {
-            ...cartItem,
-            quantity: newItemQuantity,
-            total: newItemQuantity * cartItem.price,
+            ...item,
+            quantity: item.quantity - 1,
+            total: item.price * (item.quantity - 1),
           };
         }
 
-        return cartItem;
+        return item;
       });
 
-      setShoppingCart(newShoppingCart);
-    } else {
-      // if we don't find the product, we want to add it to the shopping cart for the first time.
-      const newCartItem = { ...productData, quantity: 1, total: productData.price };
-      setShoppingCart([...shoppingCart, newCartItem]);
+      return filteredCart;
     }
-  };
 
-  const removeFromCart = (productId) => {
-    // remove item from cart that match the product id.
-    // we currently do not support lowering the quantity.
-    setShoppingCart(shoppingCart.filter((cartItem) => cartItem.id !== productId));
-  };
+    case EMPTY_CART: {
+      return [];
+    }
 
-  const emptyCart = () => setShoppingCart(shoppingCartInitialState);
+    default: {
+      return state;
+    }
+  }
+};
+
+const ShoppingCartContextProvider = (props) => {
+  const { children } = props;
+  const initialCartState = [];
+  const [shoppingCart, dispatch] = useReducer(cartReducer, initialCartState);
+
+  const addToCart = (productData) =>
+    dispatch({ type: ADD_TO_CART, payload: productData });
+
+  const removeFromCart = (productData) =>
+    dispatch({ type: REMOVE_FROM_CART, payload: productData });
+
+  const emptyCart = () => dispatch({ type: EMPTY_CART });
 
   return (
-    <shoppingCartContext.Provider value={{
-      shoppingCart, addToCart, removeFromCart, emptyCart,
-    }}
+    <shoppingCartContext.Provider
+      value={{
+        shoppingCart,
+        addToCart,
+        removeFromCart,
+        emptyCart,
+      }}
     >
       {children}
     </shoppingCartContext.Provider>
   );
-}
+};
 
 export default ShoppingCartContextProvider;

@@ -6,16 +6,19 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useContext } from "react";
+// import { useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   shoppingCartContext,
   useShoppingCart,
 } from "../../context/shoppingCartContext";
-import { userContext } from "../../context/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+// import { signIn, signOut } from "../../redux-state/userSlice";
 
 export default function Header() {
-  const { user, signIn, signOut } = useContext(userContext);
+  // const { user, signIn, signOut } = useContext(userContext);
+  // const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const { shoppingCart } = useShoppingCart();
 
