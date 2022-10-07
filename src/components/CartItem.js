@@ -1,8 +1,15 @@
 import { Card, CardMedia, Box, Typography, IconButton } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { removeFromCart } from "../redux-state/shoppingCartSlice";
+import { useDispatch } from "react-redux";
 
 function CartItem(props) {
-  const { cartItem, removeFromCart } = props;
+  const dispatch = useDispatch();
+  const { productData } = props;
+
+  const onRemoveFromCart = () => {
+    dispatch(removeFromCart(productData.id));
+  };
 
   return (
     <Card>
@@ -11,7 +18,7 @@ function CartItem(props) {
           <CardMedia
             component="img"
             sx={{ width: 80, height: 80, p: 1 }}
-            image={cartItem.image}
+            image={productData.image}
           />
         </Box>
         <Box
@@ -22,10 +29,12 @@ function CartItem(props) {
           justifyContent="center"
         >
           <Box>
-            <Typography fontWeight="bold">{cartItem.title}</Typography>
+            <Typography fontWeight="bold">{productData.title}</Typography>
           </Box>
           <Box>
-            <Typography fontWeight="bold">${cartItem.price / 100}</Typography>
+            <Typography fontWeight="bold">
+              ${productData.price / 100}
+            </Typography>
           </Box>
         </Box>
         <Box
@@ -34,7 +43,7 @@ function CartItem(props) {
           flexDirection="column"
           justifyContent="center"
         >
-          <Typography fontWeight="bold">x{cartItem.quantity}</Typography>
+          <Typography fontWeight="bold">x{productData.quantity}</Typography>
         </Box>
         <Box
           px={2}
@@ -43,7 +52,7 @@ function CartItem(props) {
           justifyContent="center"
           alignItems="center"
         >
-          <IconButton onClick={() => removeFromCart(cartItem.id)}>
+          <IconButton onClick={onRemoveFromCart}>
             <DeleteForeverIcon />
           </IconButton>
         </Box>

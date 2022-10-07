@@ -6,26 +6,21 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-// import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { sampleUserData } from "../../mockData";
 import { Link } from "react-router-dom";
-import {
-  shoppingCartContext,
-  useShoppingCart,
-} from "../../context/shoppingCartContext";
-import { useDispatch, useSelector } from "react-redux";
-// import { signIn, signOut } from "../../redux-state/userSlice";
+import { useSelector } from "react-redux";
 
 export default function Header() {
-  // const { user, signIn, signOut } = useContext(userContext);
-  // const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  const { shoppingCart } = useShoppingCart();
+  const shoppingCart = useSelector((state) => state.shoppingCart);
 
   const cartCount = shoppingCart.reduce(
     (acc, cartItem) => acc + cartItem.quantity,
     0
   );
+  let navigate = useNavigate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
