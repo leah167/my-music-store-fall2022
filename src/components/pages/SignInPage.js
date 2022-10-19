@@ -1,43 +1,38 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sampleUserData } from "../../mockData";
+import { Link, useNavigate } from "react-router-dom";
 import { signIn, signOut } from "../../redux-state/userSlice";
+import Axios from "../../utils/Axios";
 import Layout from "../layout/Layout";
 
 function SignInPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  // const { user, signIn, signOut } = useContext(userContext);
+  const navigate = useNavigate();
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/user");
+    }
+  }, [user]);
 
   const [signInForm, setSignInForm] = useState({
     email: "",
     password: "",
   });
 
-  const onSubmit = () => {
-    // set the mock user as the user
-    dispatch(signIn(sampleUserData));
-  };
+  const onSubmit = async () => {
+    // call the backend with credential data
+    const response = await Axios.post("/sign-in", { credentials: signInForm });
 
-  const handleSignOut = () => {
-    dispatch(signOut());
-  };
+    // insert the response user in the state
+    const fetchedUser = response.data.user;
 
-  if (user) {
-    return (
-      <Layout user={user}>
-        <Box mb={4}>
-          <Typography>Hi {user.firstName}!</Typography>
-        </Box>
-        <Box>
-          <Button variant="contained" onClick={handleSignOut}>
-            Sign out
-          </Button>
-        </Box>
-      </Layout>
-    );
-  }
+    dispatch(signIn(fetchedUser));
+  };
 
   return (
     <Layout>
@@ -59,7 +54,7 @@ function SignInPage() {
       </Box>
       <Box mb={4}>
         <TextField
-          id="password "
+          id="password"
           label="Password"
           type="password"
           value={signInForm.password}
@@ -72,6 +67,13 @@ function SignInPage() {
         <Button variant="contained" onClick={onSubmit}>
           Sign In
         </Button>
+      </Box>
+      <Box py={2}>
+        <Link to="/register-user">
+          <Typography sx={{ textDecoration: "underline" }}>
+            Create New Account
+          </Typography>
+        </Link>
       </Box>
     </Layout>
   );

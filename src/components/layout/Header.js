@@ -50,6 +50,7 @@ export default function Header() {
                       borderRadius: "20px",
                       border: "2px solid white",
                     }}
+                    alt="user profile"
                     src={user.profilePicture}
                   />
                 </IconButton>

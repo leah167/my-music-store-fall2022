@@ -1,6 +1,6 @@
-import { Box, Button } from '@mui/material';
-import Footer from './Footer';
-import Header from './Header';
+import { Box } from "@mui/material";
+import Footer from "./Footer";
+import Header from "./Header";
 
 function Layout(props) {
   const { children } = props;
